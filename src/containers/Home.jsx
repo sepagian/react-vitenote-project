@@ -4,12 +4,12 @@ import { Link, Route, Switch, useRoute } from "wouter";
 import AddNoteButton from "../components/modal/AddNoteButton";
 import AddNoteModal from "../components/modal/AddNoteModal";
 import SearchBar from "../components/search/SearchBar";
-import getNotes from "../utils/index";
+import { getInitialData } from "../utils/index";
 import ArchivedList from "./ArchivedList";
 import NoteList from "./NoteList";
 
 const Home = () => {
-  const [notes, setNotes] = useState(getNotes());
+  const [notes, setNotes] = useState(getInitialData());
   notes.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });

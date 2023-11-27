@@ -1,6 +1,7 @@
 import NoteContent from "./NoteContent";
 import NoteActions from "./NoteActions";
 import { PropTypes } from "prop-types";
+import { showFormattedDate } from "../../utils";
 
 const NoteItem = ({
   title,
@@ -17,7 +18,7 @@ const NoteItem = ({
       <div className="card-body prose justify-between break-words">
         <NoteContent title={title} body={body} />
         <NoteActions
-          createdAt={new Date(createdAt).toLocaleString()}
+          createdAt={showFormattedDate(createdAt)}
           id={id}
           archived={archived}
           onDelete={onDelete}
