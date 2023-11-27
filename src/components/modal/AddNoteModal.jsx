@@ -7,25 +7,20 @@ const AddNoteModal = ({ addNote }) => {
     body: "",
   });
 
-  const titleCharLimit = 50;
-  const bodyCharLimit = 280;
-
   const onTitleChangeHandler = (event) => {
-    if (event.target.value.length <= titleCharLimit) {
-      setNote({
-        ...note,
-        title: event.target.value,
-      });
-    }
+    const setTitle = event.target.value.slice(0, 50);
+    setNote({
+      ...note,
+      title: setTitle,
+    });
   };
 
   const onBodyChangeHandler = (event) => {
-    if (event.target.value.length <= bodyCharLimit) {
-      setNote({
-        ...note,
-        body: event.target.value,
-      });
-    }
+    const setBody = event.target.value.slice(0, 50);
+    setNote({
+      ...note,
+      body: setBody,
+    });
   };
 
   const onSubmitHandler = () => {

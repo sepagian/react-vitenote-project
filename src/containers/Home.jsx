@@ -110,7 +110,7 @@ const Home = () => {
         <SearchBar onSearchInput={setSearchInput} />
         <Switch>
           <Route path="/">
-            {filteredNotes.length === 0 ? (
+            {!filteredNotes.length ? (
               <p className="text-center">No notes exist</p>
             ) : (
               <div className="flex flex-col gap-4">
@@ -124,7 +124,7 @@ const Home = () => {
             )}
           </Route>
           <Route path="/archived">
-            {archivedNotes.length === 0 ? (
+            {!archivedNotes.length ? (
               <p className="text-center">No archived notes</p>
             ) : (
               <div className="flex flex-col gap-4">
