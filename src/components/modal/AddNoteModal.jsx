@@ -16,7 +16,7 @@ const AddNoteModal = ({ addNote }) => {
   };
 
   const onBodyChangeHandler = (event) => {
-    const setBody = event.target.value.slice(0, 50);
+    const setBody = event.target.value.slice(0, 280);
     setNote({
       ...note,
       body: setBody,
