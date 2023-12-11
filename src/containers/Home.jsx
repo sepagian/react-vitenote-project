@@ -5,8 +5,8 @@ import AddNoteButton from "../components/modal/AddNoteButton";
 import AddNoteModal from "../components/modal/AddNoteModal";
 import SearchBar from "../components/search/SearchBar";
 import { getInitialData } from "../utils/index";
-import ArchivedList from "./ArchivedList";
 import NoteList from "./NoteList";
+import NoteDetail from "./NoteDetail";
 
 const Home = () => {
   const [notes, setNotes] = useState(getInitialData());
@@ -49,7 +49,7 @@ const Home = () => {
     setNotes((prevNotes) => [
       ...prevNotes,
       {
-        id: +new Date(),
+        id: Number(prevNotes.length) + 1,
         title,
         body,
         archived: false,
@@ -113,14 +113,18 @@ const Home = () => {
             {!filteredNotes.length ? (
               <p className="text-center">No notes exist</p>
             ) : (
-              <div className="flex flex-col gap-4">
-                <NoteList
-                  notes={filteredNotes}
-                  onDelete={onDeleteHandler}
-                  onArchive={onArchiveHandler}
-                  onRestore={onRestoreHandler}
-                />
-              </div>
+              <>
+                <div className="flex flex-col gap-4">
+                  <NoteList
+                    notes={filteredNotes}
+                    onDelete={onDeleteHandler}
+                    onArchive={onArchiveHandler}
+                    onRestore={onRestoreHandler}
+                  />
+                </div>
+                <AddNoteButton />
+                <AddNoteModal addNote={onAddNoteHandler} />
+              </>
             )}
           </Route>
           <Route path="/archived">
@@ -128,7 +132,7 @@ const Home = () => {
               <p className="text-center">No archived notes</p>
             ) : (
               <div className="flex flex-col gap-4">
-                <ArchivedList
+                <NoteList
                   notes={archivedNotes}
                   onDelete={onDeleteHandler}
                   onArchive={onArchiveHandler}
@@ -136,6 +140,9 @@ const Home = () => {
                 />
               </div>
             )}
+          </Route>
+          <Route path="/note/:id">
+            <NoteDetail notes={notes} />
           </Route>
           <Route>
             Sorry the page you are looking for does not exist.
@@ -147,8 +154,6 @@ const Home = () => {
             </Link>
           </Route>
         </Switch>
-        <AddNoteButton />
-        <AddNoteModal addNote={onAddNoteHandler} />
       </div>
     </>
   );

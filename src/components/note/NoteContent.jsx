@@ -1,9 +1,12 @@
 import { PropTypes } from "prop-types";
+import { Link } from "wouter";
 
-const NoteContent = ({ title, body }) => {
+const NoteContent = ({ id, title, body }) => {
   return (
     <div>
-      <h2 className="card-title">{title}</h2>
+      <Link href={`/note/${id}`}>
+        <a className="card-title text-primary">{title}</a>
+      </Link>
       <div className="prose whitespace-pre-line pb-4 font-serif text-base">
         {body}
       </div>
@@ -14,6 +17,7 @@ const NoteContent = ({ title, body }) => {
 NoteContent.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
+  id: PropTypes.number,
 };
 
 export default NoteContent;

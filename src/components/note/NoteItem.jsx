@@ -14,9 +14,9 @@ const NoteItem = ({
   onRestore,
 }) => {
   return (
-    <div className="card card-compact bg-base-200">
+    <div className="card card-compact bg-base-200 hover:bg-base-300">
       <div className="card-body prose justify-between break-words">
-        <NoteContent title={title} body={body} />
+        <NoteContent id={id} title={title} body={body} />
         <NoteActions
           createdAt={showFormattedDate(createdAt)}
           id={id}
