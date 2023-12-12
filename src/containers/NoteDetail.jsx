@@ -1,9 +1,9 @@
 import { useParams } from "wouter";
 import { PropTypes } from "prop-types";
 
-const NoteDetail = ({ notes }) => {
+const NoteDetail = ({ getNote }) => {
   const { id } = useParams();
-  const note = notes.find((note) => note.id === Number(id));
+  const note = getNote(id);
 
   if (!note) {
     return <div>Note not found</div>;
@@ -18,7 +18,7 @@ const NoteDetail = ({ notes }) => {
 };
 
 NoteDetail.propTypes = {
-  notes: PropTypes.array.isRequired,
+  getNote: PropTypes.func.isRequired,
 };
 
 export default NoteDetail;

@@ -4,7 +4,7 @@ import { Link } from "wouter";
 const NoteContent = ({ id, title, body }) => {
   return (
     <div>
-      <Link href={`/note/${id}`}>
+      <Link href={`/${id}`}>
         <a className="card-title text-primary">{title}</a>
       </Link>
       <div className="prose whitespace-pre-line pb-4 font-serif text-base">

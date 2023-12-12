@@ -25,7 +25,7 @@ const NoteActions = ({
 
 NoteActions.propTypes = {
   createdAt: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   archived: PropTypes.bool.isRequired,
   onArchive: PropTypes.func.isRequired,

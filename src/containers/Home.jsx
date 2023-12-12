@@ -1,93 +1,61 @@
-import { PropTypes } from "prop-types";
 import { useState } from "react";
-import { Link, Route, Switch, useRoute } from "wouter";
+import { Link, Route, Switch } from "wouter";
+import ActiveLink from "../components/button/ActiveLink";
 import AddNoteButton from "../components/modal/AddNoteButton";
 import AddNoteModal from "../components/modal/AddNoteModal";
 import SearchBar from "../components/search/SearchBar";
-import { getInitialData } from "../utils/index";
-import NoteList from "./NoteList";
+import {
+  addNote,
+  archiveNote,
+  deleteNote,
+  getActiveNotes,
+  getAllNotes,
+  getArchivedNotes,
+  getNote,
+  unarchiveNote,
+} from "../utils/local-data";
 import NoteDetail from "./NoteDetail";
+import NoteList from "./NoteList";
 
 const Home = () => {
-  const [notes, setNotes] = useState(getInitialData());
+  const [notes, setNotes] = useState(getAllNotes());
   notes.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
   const onDeleteHandler = (id) => {
-    const updatedNotes = notes.filter((note) => note.id !== id);
+    deleteNote(id);
+    const updatedNotes = getActiveNotes();
     setNotes(updatedNotes);
   };
 
   const onArchiveHandler = (id) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === id) {
-        return {
-          ...note,
-          archived: true,
-        };
-      }
-      return note;
-    });
+    archiveNote(id);
+    const updatedNotes = getActiveNotes();
     setNotes(updatedNotes);
   };
 
   const onRestoreHandler = (id) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === id) {
-        return {
-          ...note,
-          archived: false,
-        };
-      }
-      return note;
-    });
+    unarchiveNote(id);
+    const updatedNotes = getArchivedNotes();
     setNotes(updatedNotes);
   };
 
   const onAddNoteHandler = ({ title, body }) => {
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      {
-        id: Number(prevNotes.length) + 1,
-        title,
-        body,
-        archived: false,
-        createdAt: new Date().toISOString(),
-      },
-    ]);
+    addNote({ title, body });
+    const updatedNotes = getAllNotes();
+    setNotes(updatedNotes);
   };
 
   const [searchInput, setSearchInput] = useState("");
 
-  const filteredNotes = notes
-    .filter((note) => !note.archived)
-    .filter((note) =>
-      note.title.toLowerCase().includes(searchInput.toLowerCase()),
-    );
+  const filteredNotes = getActiveNotes().filter((note) => {
+    return note.title.toLowerCase().includes(searchInput.toLowerCase());
+  });
 
-  const archivedNotes = notes
-    .filter((note) => note.archived)
-    .filter((note) =>
-      note.title.toLowerCase().includes(searchInput.toLowerCase()),
-    );
-
-  const ActiveLink = (props) => {
-    const [isActive] = useRoute(props.href);
-    return (
-      <Link {...props}>
-        <a
-          className={
-            isActive
-              ? "font-bold underline decoration-2 underline-offset-8"
-              : ""
-          }
-        >
-          {props.children}
-        </a>
-      </Link>
-    );
-  };
+  const archivedNotes = getArchivedNotes().filter((note) => {
+    return note.title.toLowerCase().includes(searchInput.toLowerCase());
+  });
 
   return (
     <>
@@ -141,8 +109,8 @@ const Home = () => {
               </div>
             )}
           </Route>
-          <Route path="/note/:id">
-            <NoteDetail notes={notes} />
+          <Route path="/:id">
+            <NoteDetail getNote={getNote} />
           </Route>
           <Route>
             Sorry the page you are looking for does not exist.
@@ -157,11 +125,6 @@ const Home = () => {
       </div>
     </>
   );
-};
-
-Home.propTypes = {
-  children: PropTypes.array,
-  href: PropTypes.string,
 };
 
 export default Home;
